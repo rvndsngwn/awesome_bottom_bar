@@ -64,13 +64,14 @@ class BottomBarCreative extends StatefulWidget {
         );
 
   @override
-  _BottomBarCreativeState createState() => _BottomBarCreativeState();
+  State<BottomBarCreative> createState() => _BottomBarCreativeState();
 }
 
 class _BottomBarCreativeState extends State<BottomBarCreative> {
   @override
   Widget build(BuildContext context) {
-    int defaultVisit = widget.items.length / 2 == 0 ? 0 : (widget.items.length / 2).ceil() - 1;
+    int defaultVisit =
+        widget.items.length / 2 == 0 ? 0 : (widget.items.length / 2).ceil() - 1;
     int visit = widget.visitHighlight ?? defaultVisit;
 
     double bottom = MediaQuery.of(context).viewPadding.bottom;
@@ -79,13 +80,17 @@ class _BottomBarCreativeState extends State<BottomBarCreative> {
       bottom: widget.bottom! > 2 ? widget.bottom! + bottom : bottom,
     );
 
-    EdgeInsetsGeometry pad = widget.paddingVertical != null ? const EdgeInsets.symmetric(vertical: 12.0) : padDefault;
+    EdgeInsetsGeometry pad = widget.paddingVertical != null
+        ? const EdgeInsets.symmetric(vertical: 12.0)
+        : padDefault;
 
     double sizeHighlight = widget.highlightStyle?.sizeLarge == true ? 56 : 48;
 
     isShadow = widget.enableShadow!;
 
-    EdgeInsetsGeometry padTop = widget.isFloating ? EdgeInsets.only(top: sizeHighlight/2) : EdgeInsets.zero;
+    EdgeInsetsGeometry padTop = widget.isFloating
+        ? EdgeInsets.only(top: sizeHighlight / 2)
+        : EdgeInsets.zero;
 
     return Stack(
       children: [
@@ -112,34 +117,38 @@ class _BottomBarCreativeState extends State<BottomBarCreative> {
                 if (visit == index) {
                   Widget highlightWidget = GestureDetector(
                     key: Key(value),
-                    onTap: index != widget.indexSelected ? () => widget.onTap?.call(visit) : null,
-                    child: buildHighLight(context, item: item, color: widget.colorSelected, size: sizeHighlight),
+                    onTap: index != widget.indexSelected
+                        ? () => widget.onTap?.call(visit)
+                        : null,
+                    child: buildHighLight(context,
+                        item: item,
+                        color: widget.colorSelected,
+                        size: sizeHighlight),
                   );
                   return !widget.isFloating
                       ? Container(
                           padding: pad,
                           alignment: Alignment.center,
-                          child: highlightWidget
-                        )
+                          child: highlightWidget)
                       : Column(
-                        children: [
-                          highlightWidget
-                        ],
-                      );
+                          children: [highlightWidget],
+                        );
                 }
                 return Expanded(
                   child: Padding(
                     padding: padTop,
                     child: InkWell(
                       key: ValueKey(value),
-                      onTap: index != widget.indexSelected ? () => widget.onTap?.call(index) : null,
+                      onTap: index != widget.indexSelected
+                          ? () => widget.onTap?.call(index)
+                          : null,
                       child: widget.items.length > index
                           ? buildItem(
-                        context,
-                        item: item,
-                        color: widget.color,
-                        isSelected: index == widget.indexSelected,
-                      )
+                              context,
+                              item: item,
+                              color: widget.color,
+                              isSelected: index == widget.indexSelected,
+                            )
                           : null,
                     ),
                   ),
@@ -147,7 +156,8 @@ class _BottomBarCreativeState extends State<BottomBarCreative> {
               }),
             ),
           )
-        else Container(),
+        else
+          Container(),
       ],
     );
   }
@@ -171,7 +181,9 @@ class _BottomBarCreativeState extends State<BottomBarCreative> {
     Color itemColor = isSelected ? widget.colorSelected : color;
 
     return Container(
-      padding: paddingVer != null ? EdgeInsets.symmetric(vertical: paddingVer) : padDefault,
+      padding: paddingVer != null
+          ? EdgeInsets.symmetric(vertical: paddingVer)
+          : padDefault,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -182,13 +194,9 @@ class _BottomBarCreativeState extends State<BottomBarCreative> {
             iconSize: widget.iconSize,
             countStyle: countStyle,
           ),
-          if (item.title is String && item.title != '') ...[
+          if (item.title != null) ...[
             SizedBox(height: widget.pad),
-            Text(
-              item.title!,
-              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor),
-              textAlign: TextAlign.center,
-            )
+            item.title ?? const SizedBox.shrink(),
           ],
         ],
       ),
@@ -223,7 +231,8 @@ class _BottomBarCreativeState extends State<BottomBarCreative> {
       margin: EdgeInsets.zero,
       elevation: widget.highlightStyle?.elevation ?? 0,
       color: background,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(size / 2)),
+      shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(size / 2)),
       child: Container(
         height: size,
         width: size,

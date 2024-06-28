@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../count_style.dart';
 import '../tab_item.dart';
-import 'bottom_bar.dart';
 import '../widgets/build_icon.dart';
+import 'bottom_bar.dart';
 
 class BottomBarDefault extends StatefulWidget {
   final List<TabItem> items;
@@ -57,10 +57,11 @@ class BottomBarDefault extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BottomBarDefaultState createState() => _BottomBarDefaultState();
+  State<BottomBarDefault> createState() => _BottomBarDefaultState();
 }
 
-class _BottomBarDefaultState extends State<BottomBarDefault> with TickerProviderStateMixin {
+class _BottomBarDefaultState extends State<BottomBarDefault>
+    with TickerProviderStateMixin {
   late List<AnimationController> _animationControllerList;
   late List<Animation<double>> _animationList;
 
@@ -76,8 +77,9 @@ class _BottomBarDefaultState extends State<BottomBarDefault> with TickerProvider
     _animationList = List<Animation<double>>.empty(growable: true);
 
     for (int i = 0; i < widget.items.length; ++i) {
-      _animationControllerList
-          .add(AnimationController(duration: widget.duration ?? const Duration(milliseconds: 400), vsync: this));
+      _animationControllerList.add(AnimationController(
+          duration: widget.duration ?? const Duration(milliseconds: 400),
+          vsync: this));
       _animationList.add(Tween(begin: 1.0, end: 1.18)
           .chain(CurveTween(curve: widget.curve ?? Curves.ease))
           .animate(_animationControllerList[i]));
@@ -96,7 +98,8 @@ class _BottomBarDefaultState extends State<BottomBarDefault> with TickerProvider
     super.dispose();
   }
 
-  Widget buildItem(BuildContext context, {required TabItem item, required int index, bool isSelected = false}) {
+  Widget buildItem(BuildContext context,
+      {required TabItem item, required int index, bool isSelected = false}) {
     double bottom = MediaQuery.of(context).viewPadding.bottom;
     EdgeInsets padDefault = EdgeInsets.only(
       top: widget.top!,
@@ -125,8 +128,9 @@ class _BottomBarDefaultState extends State<BottomBarDefault> with TickerProvider
   ) {
     return Container(
       width: double.infinity,
-      padding:
-          widget.paddingVertical != null ? EdgeInsets.symmetric(vertical: widget.paddingVertical ?? 17.0) : padDefault,
+      padding: widget.paddingVertical != null
+          ? EdgeInsets.symmetric(vertical: widget.paddingVertical ?? 17.0)
+          : padDefault,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -137,13 +141,9 @@ class _BottomBarDefaultState extends State<BottomBarDefault> with TickerProvider
             iconSize: widget.iconSize,
             countStyle: widget.countStyle,
           ),
-          if (item.title is String && item.title != '') ...[
+          if (item.title != null) ...[
             SizedBox(height: widget.pad),
-            Text(
-              item.title!,
-              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor),
-              textAlign: TextAlign.center,
-            )
+            item.title ?? const SizedBox.shrink(),
           ],
         ],
       ),
@@ -153,12 +153,14 @@ class _BottomBarDefaultState extends State<BottomBarDefault> with TickerProvider
   @override
   Widget build(BuildContext context) {
     if (widget.items.length != _animationControllerList.length) {
-      _animationControllerList = List<AnimationController>.empty(growable: true);
+      _animationControllerList =
+          List<AnimationController>.empty(growable: true);
       _animationList = List<Animation<double>>.empty(growable: true);
 
       for (int i = 0; i < widget.items.length; ++i) {
-        _animationControllerList
-            .add(AnimationController(duration: widget.duration ?? const Duration(milliseconds: 400), vsync: this));
+        _animationControllerList.add(AnimationController(
+            duration: widget.duration ?? const Duration(milliseconds: 400),
+            vsync: this));
         _animationList.add(Tween(begin: 1.0, end: 1.18)
             .chain(CurveTween(curve: widget.curve ?? Curves.ease))
             .animate(_animationControllerList[i]));
@@ -187,7 +189,7 @@ class _BottomBarDefaultState extends State<BottomBarDefault> with TickerProvider
           ? IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: List.generate(widget.items.length, (index) {    
+                children: List.generate(widget.items.length, (index) {
                   String value = widget.items[index].key ?? '';
                   return Expanded(
                     child: InkWell(
@@ -202,8 +204,11 @@ class _BottomBarDefaultState extends State<BottomBarDefault> with TickerProvider
                                     _selectedIndex = index;
                                   });
                                   if (widget.animated) {
-                                    _animationControllerList[_selectedIndex!].forward();
-                                    _animationControllerList[_lastSelectedIndex!].reverse();
+                                    _animationControllerList[_selectedIndex!]
+                                        .forward();
+                                    _animationControllerList[
+                                            _lastSelectedIndex!]
+                                        .reverse();
                                   }
                                 }
                               }

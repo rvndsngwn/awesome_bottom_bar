@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TabItem<T> {
   final T icon;
-  final String? title;
+  final Widget? title;
   final Widget? count;
   final String? key;
 

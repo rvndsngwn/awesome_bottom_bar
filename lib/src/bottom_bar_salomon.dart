@@ -57,10 +57,11 @@ class BottomBarSalomon extends StatefulWidget {
           key: key,
         );
   @override
-  _BottomBarSalomonState createState() => _BottomBarSalomonState();
+  State<BottomBarSalomon> createState() => _BottomBarSalomonState();
 }
 
-class _BottomBarSalomonState extends State<BottomBarSalomon> with TickerProviderStateMixin {
+class _BottomBarSalomonState extends State<BottomBarSalomon>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BuildLayout(
@@ -80,7 +81,9 @@ class _BottomBarSalomonState extends State<BottomBarSalomon> with TickerProvider
                     String value = widget.items[index].key ?? '';
                     return GestureDetector(
                       key: Key(value),
-                      onTap: index != widget.indexSelected ? () => widget.onTap?.call(index) : null,
+                      onTap: index != widget.indexSelected
+                          ? () => widget.onTap?.call(index)
+                          : null,
                       child: widget.items.length > index
                           ? buildItem(
                               context,
@@ -182,18 +185,13 @@ class _BottomBarSalomonState extends State<BottomBarSalomon> with TickerProvider
                 countStyle: countStyle,
               ),
             ],
-            if (item.title is String && item.title != '') ...[
+            if (item.title != null) ...[
               ClipRect(
                 child: Align(
                   widthFactor: widthFactor,
                   child: Padding(
                     padding: const EdgeInsetsDirectional.only(start: 8),
-                    child: Text(
-                      item.title!,
-                      style:
-                          Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor),
-                      textAlign: TextAlign.center,
-                    ),
+                    child: item.title ?? const SizedBox.shrink(),
                   ),
                 ),
               )

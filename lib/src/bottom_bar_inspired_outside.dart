@@ -66,7 +66,8 @@ class BottomBarInspiredOutside extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BottomBarInspiredOutsideState createState() => _BottomBarInspiredOutsideState();
+  State<BottomBarInspiredOutside> createState() =>
+      _BottomBarInspiredOutsideState();
 }
 
 class _BottomBarInspiredOutsideState extends State<BottomBarInspiredOutside> {
@@ -81,13 +82,14 @@ class _BottomBarInspiredOutsideState extends State<BottomBarInspiredOutside> {
       isAnimated: widget.animated,
       pad: widget.pad,
       padTop: widget.padTop,
-      padbottom: widget.padbottom,
+      padBottom: widget.padbottom,
       radius: widget.radius,
       fixedIndex: widget.fixedIndex,
       initialActive: widget.indexSelected,
       items: widget.items,
       onTap: widget.onTap,
-      chipStyle: widget.chipStyle ?? const ChipStyle(notchSmoothness: NotchSmoothness.defaultEdge),
+      chipStyle: widget.chipStyle ??
+          const ChipStyle(notchSmoothness: NotchSmoothness.defaultEdge),
       curveSize: 70,
       top: widget.top ?? -28,
       containerSize: 56,

@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 import '../count_style.dart';
 import '../tab_item.dart';
-import 'bottom_bar.dart';
 import '../widgets/build_icon.dart';
+import 'bottom_bar.dart';
 
 enum StyleDivider { top, bottom, all }
 
@@ -65,7 +65,7 @@ class BottomBarDivider extends StatefulWidget {
       : super(key: key);
 
   @override
-  _BottomBarDividerState createState() => _BottomBarDividerState();
+  State<BottomBarDivider> createState() => _BottomBarDividerState();
 }
 
 class _BottomBarDividerState extends State<BottomBarDivider> {
@@ -89,7 +89,9 @@ class _BottomBarDividerState extends State<BottomBarDivider> {
       blur: widget.blur,
       child: widget.items.isNotEmpty
           ? Stack(
-              alignment: widget.styleDivider == StyleDivider.bottom ? Alignment.bottomCenter : Alignment.topCenter,
+              alignment: widget.styleDivider == StyleDivider.bottom
+                  ? Alignment.bottomCenter
+                  : Alignment.topCenter,
               children: <Widget>[
                   IntrinsicHeight(
                     child: Row(
@@ -118,7 +120,8 @@ class _BottomBarDividerState extends State<BottomBarDivider> {
                   Positioned(
                     width: width,
                     child: AnimatedAlign(
-                      alignment: Alignment(_getIndicatorPosition(widget.indexSelected), 0),
+                      alignment: Alignment(
+                          _getIndicatorPosition(widget.indexSelected), 0),
                       curve: widget.curve ?? Curves.ease,
                       duration: widget.animated
                           ? widget.duration ?? const Duration(milliseconds: 300)
@@ -163,13 +166,9 @@ class _BottomBarDividerState extends State<BottomBarDivider> {
             iconSize: widget.iconSize,
             countStyle: countStyle,
           ),
-          if (item.title is String && item.title != '') ...[
+          if (item.title != null) ...[
             SizedBox(height: widget.pad),
-            Text(
-              item.title!,
-              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: itemColor),
-              textAlign: TextAlign.center,
-            )
+            item.title ?? const SizedBox.shrink(),
           ],
         ],
       ),

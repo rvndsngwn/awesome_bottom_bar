@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../count_style.dart';
 import '../tab_item.dart';
-import 'bottom_bar.dart';
 import '../widgets/build_icon.dart';
+import 'bottom_bar.dart';
 
 class BottomBarBackground extends StatefulWidget {
   final List<TabItem> items;
@@ -57,10 +57,11 @@ class BottomBarBackground extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BottomBarBackgroundState createState() => _BottomBarBackgroundState();
+  State<BottomBarBackground> createState() => _BottomBarBackgroundState();
 }
 
-class _BottomBarBackgroundState extends State<BottomBarBackground> with TickerProviderStateMixin {
+class _BottomBarBackgroundState extends State<BottomBarBackground>
+    with TickerProviderStateMixin {
   late int _selectedIndex;
   late int _lastSelectedIndex;
 
@@ -76,11 +77,13 @@ class _BottomBarBackgroundState extends State<BottomBarBackground> with TickerPr
     _animationList = List<Animation<Color?>>.empty(growable: true);
 
     for (int i = 0; i < widget.items.length; ++i) {
-      _animationControllerList
-          .add(AnimationController(duration: widget.duration ?? const Duration(milliseconds: 400), vsync: this));
-      _animationList.add(ColorTween(begin: widget.color, end: widget.colorSelected)
-          .chain(CurveTween(curve: widget.curve ?? Curves.ease))
-          .animate(_animationControllerList[i]));
+      _animationControllerList.add(AnimationController(
+          duration: widget.duration ?? const Duration(milliseconds: 400),
+          vsync: this));
+      _animationList.add(
+          ColorTween(begin: widget.color, end: widget.colorSelected)
+              .chain(CurveTween(curve: widget.curve ?? Curves.ease))
+              .animate(_animationControllerList[i]));
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -96,12 +99,14 @@ class _BottomBarBackgroundState extends State<BottomBarBackground> with TickerPr
     super.dispose();
   }
 
-  Widget buildItem(BuildContext context, {required TabItem item, required int index, bool isSelected = false}) {
+  Widget buildItem(BuildContext context,
+      {required TabItem item, required int index, bool isSelected = false}) {
     if (widget.animated) {
       return AnimatedBuilder(
         animation: _animationList[index],
         builder: (context, child) {
-          return buildContentItem(item, _animationList[index].value ?? Colors.black);
+          return buildContentItem(
+              item, _animationList[index].value ?? Colors.black);
         },
       );
     }
@@ -128,13 +133,9 @@ class _BottomBarBackgroundState extends State<BottomBarBackground> with TickerPr
             iconSize: widget.iconSize,
             countStyle: widget.countStyle,
           ),
-          if (item.title is String && item.title != '') ...[
+          if (item.title != null) ...[
             SizedBox(height: widget.pad),
-            Text(
-              item.title!,
-              style: Theme.of(context).textTheme.labelSmall?.merge(widget.titleStyle).copyWith(color: color),
-              textAlign: TextAlign.center,
-            )
+            item.title ?? const SizedBox.shrink()
           ],
         ],
       ),
@@ -162,15 +163,18 @@ class _BottomBarBackgroundState extends State<BottomBarBackground> with TickerPr
   Widget build(BuildContext context) {
     double widthScreen = MediaQuery.of(context).size.width;
     if (widget.items.length != _animationControllerList.length) {
-      _animationControllerList = List<AnimationController>.empty(growable: true);
+      _animationControllerList =
+          List<AnimationController>.empty(growable: true);
       _animationList = List<Animation<Color?>>.empty(growable: true);
 
       for (int i = 0; i < widget.items.length; ++i) {
-        _animationControllerList
-            .add(AnimationController(duration: widget.duration ?? const Duration(milliseconds: 400), vsync: this));
-        _animationList.add(ColorTween(begin: widget.color, end: widget.colorSelected)
-            .chain(CurveTween(curve: widget.curve ?? Curves.ease))
-            .animate(_animationControllerList[i]));
+        _animationControllerList.add(AnimationController(
+            duration: widget.duration ?? const Duration(milliseconds: 400),
+            vsync: this));
+        _animationList.add(
+            ColorTween(begin: widget.color, end: widget.colorSelected)
+                .chain(CurveTween(curve: widget.curve ?? Curves.ease))
+                .animate(_animationControllerList[i]));
       }
     }
 
@@ -195,7 +199,8 @@ class _BottomBarBackgroundState extends State<BottomBarBackground> with TickerPr
       child: widget.items.isNotEmpty
           ? LayoutBuilder(builder: (_, BoxConstraints constraints) {
               double maxWidth = constraints.maxWidth;
-              double width = maxWidth != double.infinity ? maxWidth : widthScreen;
+              double width =
+                  maxWidth != double.infinity ? maxWidth : widthScreen;
 
               double widthItem = width / widget.items.length;
 
@@ -210,7 +215,8 @@ class _BottomBarBackgroundState extends State<BottomBarBackground> with TickerPr
                             width: (_selectedIndex + 1) * widthItem,
                             height: double.infinity,
                             alignment: AlignmentDirectional.centerEnd,
-                            duration: widget.duration ?? const Duration(milliseconds: 300),
+                            duration: widget.duration ??
+                                const Duration(milliseconds: 300),
                             curve: widget.curve ?? Curves.easeIn,
                             child: Container(
                               width: widthItem,
@@ -222,7 +228,8 @@ class _BottomBarBackgroundState extends State<BottomBarBackground> with TickerPr
                             width: widthItem,
                             height: double.infinity,
                             color: widget.backgroundSelected,
-                            margin: EdgeInsetsDirectional.only(start: _selectedIndex * widthItem),
+                            margin: EdgeInsetsDirectional.only(
+                                start: _selectedIndex * widthItem),
                           ),
                   ),
                   IntrinsicHeight(
@@ -243,8 +250,12 @@ class _BottomBarBackgroundState extends State<BottomBarBackground> with TickerPr
                                           _selectedIndex = index;
                                         });
                                         if (widget.animated) {
-                                          _animationControllerList[_selectedIndex].forward();
-                                          _animationControllerList[_lastSelectedIndex].reverse();
+                                          _animationControllerList[
+                                                  _selectedIndex]
+                                              .forward();
+                                          _animationControllerList[
+                                                  _lastSelectedIndex]
+                                              .reverse();
                                         }
                                       }
                                     }

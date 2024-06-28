@@ -1,5 +1,6 @@
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:flutter/material.dart';
+
 import '../chip_style.dart';
 import '../count_style.dart';
 import '../tab_item.dart';
@@ -58,7 +59,8 @@ class BottomBarInspiredInside extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BottomBarInspiredInsideState createState() => _BottomBarInspiredInsideState();
+  State<BottomBarInspiredInside> createState() =>
+      _BottomBarInspiredInsideState();
 }
 
 class _BottomBarInspiredInsideState extends State<BottomBarInspiredInside> {
@@ -74,7 +76,7 @@ class _BottomBarInspiredInsideState extends State<BottomBarInspiredInside> {
       isAnimated: widget.isAnimated,
       pad: widget.pad,
       padTop: widget.padTop,
-      padbottom: widget.padbottom,
+      padBottom: widget.padbottom,
       fixedIndex: widget.fixedIndex,
       radius: widget.radius,
       initialActive: widget.indexSelected,
