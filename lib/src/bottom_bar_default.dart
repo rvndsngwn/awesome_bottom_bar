@@ -194,6 +194,7 @@ class _BottomBarDefaultState extends State<BottomBarDefault>
                   return Expanded(
                     child: InkWell(
                       key: Key(value),
+                      borderRadius: widget.borderRadius,
                       onTap: index != _selectedIndex!
                           ? () {
                               if (index != _selectedIndex) {
